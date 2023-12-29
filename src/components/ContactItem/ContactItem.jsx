@@ -1,7 +1,7 @@
 import { ListItemStyled } from './ContactItem.styled';
 import { FaTrashAlt } from 'react-icons/fa';
 
-export const ListItem = ({ id, name, number, handlerClic }) => {
+export const ListItem = ({ id, name, number, handlerClick }) => {
   return (
     <ListItemStyled>
       <p>{name}:</p>
@@ -11,7 +11,7 @@ export const ListItem = ({ id, name, number, handlerClic }) => {
           cursor: 'pointer',
         }}
         onClick={() => {
-          handlerClic(id);
+          handlerClick(id);
         }}
       >
         Delite

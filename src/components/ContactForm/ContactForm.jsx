@@ -1,33 +1,44 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Form, Button, Input } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../../redux/selectors';
 
-export const ContactForm = ({ onSubmit }) => {
+import { addContact } from '../../redux/contactsSlise';
+
+export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e);
-    const id = nanoid();
 
-    onSubmit({ name, number, id });
+    const newContact = { name, number, id: nanoid() };
+    contacts.some(element => element.name === newContact.name)
+      ? alert('This contact has already exists')
+      : dispatch(addContact(newContact));
+
     reset();
   };
+
   const reset = () => {
     setName('');
     setNumber('');
   };
 
-  // const { name, number } = this.state;
-
-  const handleInputChange = e => {
-    const { name, value } = e.currentTarget;
-
-    if (name === 'name') {
-      setName(value);
-    } else if (name === 'number') {
-      setNumber(value);
+  const handleInputChange = event => {
+    switch (event.currentTarget.name) {
+      case 'name':
+        setName(event.currentTarget.value);
+        break;
+      case 'number':
+        setNumber(event.currentTarget.value);
+        break;
+      default:
+        break;
     }
   };
 
